@@ -1,23 +1,24 @@
-import { getAllLikesModel, createPostModel } from '../models/likeModel.js'
+import { getPostsModel , createPostsModel } from '../models/likeModel.js'
 
 //GET
-export const getAllLikes = async (req, res) => {
+export const getAllPosts = async (req, res) => {
     try {
-        const likes = await getAllLikesModel()
-        res.json(likes)
+        const posts = await getPostsModel()
+        res.json({ posts })
     } catch (error) {
-        res.status(500).json({ message: 'Hubo un error en la petición' })
+        console.error(error)
     }
 }
 
 //POST
 
-export const createPostFoto = async (req, res) => {
+export const createPostsFoto = async (req, res) => {
     try {
-        const { titulo, url, descripcion } = req.body
-        const NewPost = await createPostModel({titulo, img: url, descripcion, likes:0})
+        const { titulo, url, descripcion, likes } = req.body
+        const NewPost = await createPostsModel({titulo, img: url, descripcion, likes})
+        console.log(NewPost)
         res.json(NewPost)
     } catch (error) {
-        res.status(500).json({ message: 'Hubo un error en la creación' })
+        console.error(error)
     }
 }

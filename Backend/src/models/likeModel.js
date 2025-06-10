@@ -1,11 +1,11 @@
 
 import pool from '../../config.js'
-import crypto from 'crypto'
+import {v4 as uuid} from 'uuid'
 
 //GET
 
-const getAllLikesModel = async() => {
-    const sqlQuery = { text: 'SELECT * FROM likeme' }
+const getPostsModel = async() => {
+    const sqlQuery = { text: 'SELECT * FROM posts' }
     const resultado = await pool.query(sqlQuery)
     console.log(resultado.rows)
     return resultado.rows
@@ -13,14 +13,14 @@ const getAllLikesModel = async() => {
 
 //POST
 
-const createPostModel = async({titulo, img, descripcion, likes}) => {
-    const Nid = crypto.randomUUID()
+const createPostsModel = async({titulo, img, descripcion, likes}) => {
+    const GenerarId = uuid()
     const sqlQuery = {
-        text: 'INSERT INTO likeme (id, titulo, img, descripcion, likes) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        values: [Nid, titulo, img, descripcion, likes]
+        text: 'INSERT INTO posts (id, titulo, img, descripcion, likes) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        values: [GenerarId, titulo, img, descripcion, likes]
     }
     const resultado = await pool.query(sqlQuery)
     return resultado.rows[0]
 }
 
-export { getAllLikesModel, createPostModel }
+export { getPostsModel , createPostsModel }
