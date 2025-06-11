@@ -11,10 +11,10 @@ const getPostsModel = async() => {
 
 //POST
 
-const createPostsModel = async({titulo, url, descripcion, likes}) => {
+const createPostsModel = async({titulo, img, descripcion, likes}) => {
     const sqlQuery = {
         text: 'INSERT INTO posts (titulo, img, descripcion, likes) VALUES ($1, $2, $3, $4) RETURNING *',
-        values: [titulo, url, descripcion, likes]
+        values: [titulo, img, descripcion, likes]
     }
     const resultado = await pool.query(sqlQuery)
     return resultado.rows[0]
