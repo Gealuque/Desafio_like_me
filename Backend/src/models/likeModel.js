@@ -1,3 +1,4 @@
+import { text } from 'express'
 import pool from '../../config.js'
 
 //GET
@@ -20,4 +21,15 @@ const createPostsModel = async({titulo, img, descripcion, likes}) => {
     return resultado.rows[0]
 }
 
-export { getPostsModel , createPostsModel }
+//DELETE
+
+const deletePostModel = async (id) => {
+    const sqlQuery = {
+        text: 'DELETE FROM posts WHERE id = $1',
+        values: [id]
+    }
+    const resultado = await pool.query(sqlQuery)
+    return resultado.rowCount
+}
+
+export { getPostsModel , createPostsModel, deletePostModel }

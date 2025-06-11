@@ -1,4 +1,4 @@
-import { getPostsModel , createPostsModel } from '../models/likeModel.js'
+import { getPostsModel , createPostsModel, deletePostModel } from '../models/likeModel.js'
 
 //GET
 export const getAllPosts = async (req, res) => {
@@ -20,5 +20,20 @@ export const createPostsFoto = async (req, res) => {
         res.json(NewPost)
     } catch (error) {
         console.error(error)
+    }
+}
+
+//DELETE
+
+export const deletePost = async (req, res) => {
+    try {
+        const {id} = req.params
+        const posts = await deletePostModel(id)
+        if( posts === 0){
+            return res.json(error)
+        }
+        res.json('Post Borrado')
+    } catch (error) {
+        console.log(error)
     }
 }
