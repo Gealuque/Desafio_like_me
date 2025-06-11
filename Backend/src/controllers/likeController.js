@@ -15,7 +15,7 @@ export const getAllPosts = async (req, res) => {
 export const createPostsFoto = async (req, res) => {
     try {
         const { titulo, url, descripcion, likes } = req.body
-        const NewPost = await createPostsModel({titulo, img: url, descripcion, likes})
+        const NewPost = await createPostsModel({titulo, url, descripcion, likes})
         console.log(NewPost)
         res.json(NewPost)
     } catch (error) {
