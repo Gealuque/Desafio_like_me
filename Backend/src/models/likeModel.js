@@ -12,15 +12,25 @@ const getPostsModel = async() => {
 
 //POST
 
-const createPostsModel = async({titulo, img, descripcion, likes}) => {
+const createPostsModel = async({titulo, img, descripcion}) => {
     const sqlQuery = {
         text: 'INSERT INTO posts (titulo, img, descripcion, likes) VALUES ($1, $2, $3, $4) RETURNING *',
-        values: [titulo, img, descripcion, likes]
+        values: [titulo, img, descripcion, 0]
     }
     const resultado = await pool.query(sqlQuery)
     return resultado.rows[0]
 }
 
+//PUT
+
+const updateLikesModel = async (id) => {
+    const sqlQuery = {
+        text: 'UPDATE posts SET likes = likes + 1 WHERE id = $1 RETURNING *',
+        values: [ id ]
+    }
+    const resultado = await pool.query(sqlQuery)
+    return resultado.rows[0]
+}
 //DELETE
 
 const deletePostModel = async (id) => {
@@ -32,4 +42,4 @@ const deletePostModel = async (id) => {
     return resultado.rowCount
 }
 
-export { getPostsModel , createPostsModel, deletePostModel }
+export { getPostsModel , createPostsModel, deletePostModel, updateLikesModel }

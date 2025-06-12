@@ -1,4 +1,4 @@
-import { getPostsModel , createPostsModel, deletePostModel } from '../models/likeModel.js'
+import { getPostsModel , createPostsModel, deletePostModel, updateLikesModel } from '../models/likeModel.js'
 
 //GET
 export const getAllPosts = async (req, res) => {
@@ -6,7 +6,8 @@ export const getAllPosts = async (req, res) => {
         const posts = await getPostsModel()
         res.json(posts)
     } catch (error) {
-        console.error(error)
+        res.json({ error: 'Error al Obtener los Posts'})
+        console.error('Error:', error)
     }
 }
 
@@ -14,12 +15,26 @@ export const getAllPosts = async (req, res) => {
 
 export const createPostsFoto = async (req, res) => {
     try {
-        const { titulo, url, descripcion, likes } = req.body
-        const NewPost = await createPostsModel({titulo, img:url, descripcion, likes})
+        const { titulo, url, descripcion } = req.body
+        const NewPost = await createPostsModel({titulo, img:url, descripcion})
         console.log(NewPost)
         res.json(NewPost)
     } catch (error) {
-        console.error(error)
+        res.json({ error: 'Error al Crear'})
+        console.error('Error:', error)
+    }
+}
+
+//PUT
+
+export const updateLikes = async(req, res) => {
+    try {
+        const {id} = req.params
+        const likes = await updateLikesModel(id)
+        res.json(likes)
+    } catch (error) {
+        res.json({ error: 'Error al actualizar'})
+        console.error('Error:', error)
     }
 }
 
@@ -34,6 +49,7 @@ export const deletePost = async (req, res) => {
         }
         res.json('Post Borrado')
     } catch (error) {
-        console.log(error)
+        res.json({ error: 'Error al Borrar'})
+        console.error('Error:', error)
     }
 }
